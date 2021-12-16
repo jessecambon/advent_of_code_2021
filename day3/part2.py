@@ -22,26 +22,30 @@ data_numeric = [[ int(digit) for digit in l] for l in data ]
 #transposed = np.array(data_numeric).T.tolist()
 
 # data_numeric indices
-indices_to_keep = list(range(len(data_numeric)))
+#indices_to_keep = list(range(len(data_numeric)))
+remaining_numbers = data_numeric
 
 # iterate through data and remove items that don't match criteria
 for i in range(len(data_numeric[0])):
-    # find most common bits in remaining numbers
-    remaining_numbers = [data_numeric[i] for i in indices_to_keep]
-    common = [round_properly(sum(x)/len(x)) for x in remaining_numbers]
-    print('common:')
-    print(common)
+    # extract ith column from remaining numbers
+    number_column = [x[i] for x in remaining_numbers]
 
-    for j in range(len(remaining_numbers)):
+    # find most common digit
+    d_common = round_properly(sum(number_column)/len(number_column))
+    print('d_common:')
+    print(d_common)
+
+    for l in remaining_numbers:
         # if only one value left then stop
-        if len(indices_to_keep) == 1:
+        if l[i] != d_common:
+            remaining_numbers.remove(l)
+        
+        if len(remaining_numbers) == 1:
             break
-        elif remaining_numbers[j] != common[i]:
-            indices_to_keep.pop(j)
 
 # use indices to keep to extract relevant number and convert from 
 # decimal to binary
-binary_oxygen = ''.join([str(d) for d in data_numeric[indices_to_keep[0]]])
+binary_oxygen = ''.join([str(d) for d in remaining_numbers[0]])
 
 oxygen = int(binary_oxygen, 2)
 
