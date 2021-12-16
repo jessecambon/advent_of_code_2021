@@ -13,20 +13,13 @@ def flip(d):
         return(0)
 
 # read data
-with open('sample.txt') as f:
+with open('input.txt') as f:
     data =  [list(line.rstrip()) for line in f]
 
 # convert input data to numeric list of lists
 data_numeric = [[ int(digit) for digit in l] for l in data ]
 
-#transposed = np.array(data_numeric).T.tolist()
-
-# data_numeric indices
-#indices_to_keep = list(range(len(data_numeric)))
-
-
 def find_value(val_type):
-
     remaining_numbers = data_numeric
 
 # iterate through data and remove items that don't match criteria
@@ -37,52 +30,29 @@ def find_value(val_type):
         number_column = [x[i] for x in remaining_numbers]
 
         # find most or least common digit
-
         d_select = round_properly(sum(number_column)/len(number_column))
         
         if val_type == 'scrubber':
             d_select = flip(d_select)
-        print('d_select:')
-        print(d_select)
+            
+        # print('d_select:')
+        # print(d_select)
 
-        for l in remaining_numbers:
-            # if only one value left then stop
-            if len(remaining_numbers) == 1:
-                break
-            if l[i] != d_select:
-                remaining_numbers.remove(l)
-
-        print('remaining numbers:')
-        print(remaining_numbers)
+        # only keep numbers that match criteria
+        remaining_numbers = [ l for l in remaining_numbers if l[i] == d_select]
 
     # use indices to keep to extract relevant number and convert from 
     # decimal to binary
     binary_value = ''.join([str(d) for d in remaining_numbers[0]])
 
-    print("binary_value: " + binary_value)
+    # print("binary_value: " + binary_value)
 
     final_value = int(binary_value, 2)
 
     return(final_value)
 
-#oxygen = find_value('oxygen')
+oxygen = find_value('oxygen')
 scrubber = find_value('scrubber')
-#print('oxygen: %d' % oxygen)
+print('oxygen: %d' % oxygen)
 print('scrubber: %d' % scrubber)
-
-
-
-
-# gamma_string = "".join([str(digit) for digit in common])
-
-
-
-# epsilon_list = [flip(digit) for digit in common]
-
-# epsilon_string = "".join([str(digit) for digit in epsilon_list])
-
-# # convert from binary to decimal
-# gamma = int(gamma_string, 2)
-# epsilon = int(epsilon_string, 2)
-
-# print("product = %d" % (gamma * epsilon))
+print('product: %d' % (oxygen * scrubber))
