@@ -23,34 +23,52 @@ data_numeric = [[ int(digit) for digit in l] for l in data ]
 
 # data_numeric indices
 #indices_to_keep = list(range(len(data_numeric)))
-remaining_numbers = data_numeric
+
+
+def find_value(val_type):
+
+    remaining_numbers = data_numeric
 
 # iterate through data and remove items that don't match criteria
-for i in range(len(data_numeric[0])):
-    # extract ith column from remaining numbers
-    number_column = [x[i] for x in remaining_numbers]
-
-    # find most common digit
-    d_common = round_properly(sum(number_column)/len(number_column))
-    print('d_common:')
-    print(d_common)
-
-    for l in remaining_numbers:
-        # if only one value left then stop
-        if l[i] != d_common:
-            remaining_numbers.remove(l)
-        
+    for i in range(len(data_numeric[0])):
         if len(remaining_numbers) == 1:
             break
+        # extract ith column from remaining numbers
+        number_column = [x[i] for x in remaining_numbers]
 
-# use indices to keep to extract relevant number and convert from 
-# decimal to binary
-binary_oxygen = ''.join([str(d) for d in remaining_numbers[0]])
+        # find most or least common digit
 
-oxygen = int(binary_oxygen, 2)
+        d_select = round_properly(sum(number_column)/len(number_column))
+        
+        if val_type == 'scrubber':
+            d_select = flip(d_select)
+        print('d_select:')
+        print(d_select)
 
-print('oxygen: %d' % oxygen)
+        for l in remaining_numbers:
+            # if only one value left then stop
+            if len(remaining_numbers) == 1:
+                break
+            if l[i] != d_select:
+                remaining_numbers.remove(l)
 
+        print('remaining numbers:')
+        print(remaining_numbers)
+
+    # use indices to keep to extract relevant number and convert from 
+    # decimal to binary
+    binary_value = ''.join([str(d) for d in remaining_numbers[0]])
+
+    print("binary_value: " + binary_value)
+
+    final_value = int(binary_value, 2)
+
+    return(final_value)
+
+#oxygen = find_value('oxygen')
+scrubber = find_value('scrubber')
+#print('oxygen: %d' % oxygen)
+print('scrubber: %d' % scrubber)
 
 
 
