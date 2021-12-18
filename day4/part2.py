@@ -22,42 +22,47 @@ with open('input.txt') as f:
 # Play bingo - reveal one bingo number at a time
 
 bingo_numbers_in_play = np.empty(0) #initialize
-bingo = False # has a board won yet?
 
+# record which boards have bingo
+bingo_record = np.zeros(len(bingo_boards))
+
+stop = False
 for i in range(len(bingo_numbers)):
-    if bingo == True:
+    if stop == True:
         break
 
     # select bingo numbers in play for the given round
     bingo_numbers_in_play = np.append(bingo_numbers_in_play, bingo_numbers[i])
 
     for board_number, selected_board in enumerate(bingo_boards):
+        if bingo_record[board_number] == 1:
+            pass
+
         # check rows for bingo
         for k in range(5):
             row = selected_board[k]
             if sum(np.isin(row, bingo_numbers_in_play)) == 5:
-                print('row:')
-                print(row)
-                bingo = True
+                bingo_record[board_number] = 1
                 break
         
         # check columns for bingo
         for k in range(5):
             column = selected_board[:,k]
             if sum(np.isin(column, bingo_numbers_in_play)) == 5:
-                print('column:')
-                print(column)
-                bingo = True
+                bingo_record[board_number] = 1
                 break
         
-        if bingo == True:
-            print('Bingo!')
-            print('Winning board number: %d' % (board_number+1))
-            print('Numbers in play:')
-            print(bingo_numbers_in_play)
+        if sum(bingo_record) == len(bingo_record):
+            print('Last board won!')
 
-            unscored_numbers = selected_board.flatten()[np.isin(selected_board.flatten(), bingo_numbers_in_play, invert = True)]
+            #last_board_index = np.where(bingo_record == 0)[0][0]
+            #print(last_board_index)
+            final_board = bingo_boards[board_number]
+
+            unscored_numbers = final_board.flatten()[np.isin(final_board.flatten(), bingo_numbers_in_play, invert = True)]
             print("unscored sum: %d" % sum(unscored_numbers))
             print("last bingo number: %d" % bingo_numbers_in_play[-1])
             print('product: %d' % (sum(unscored_numbers) * bingo_numbers_in_play[-1]))
+
+            stop = True
             break
