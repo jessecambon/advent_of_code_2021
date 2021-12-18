@@ -28,16 +28,7 @@ bingo = False # has a board won yet?
 
 for i in range(len(bingo_numbers)):
     if bingo == True:
-            print('Bingo!')
-            print('Winning board number: %d' % (board_number+1))
-            print('Numbers in play:')
-            print(bingo_numbers_in_play)
-
-            unscored_numbers = selected_board.flatten()[np.isin(selected_board.flatten(), bingo_numbers_in_play, invert = True)]
-            print("unscored sum: %d" % sum(unscored_numbers))
-            print("last bingo number: %d" % bingo_numbers_in_play[-1])
-            print('product: %d' % (sum(unscored_numbers) * bingo_numbers_in_play[-1]))
-            break
+        break
 
     # select bingo numbers in play for the given round
     bingo_numbers_in_play = np.append(bingo_numbers_in_play, bingo_numbers[i])
@@ -60,3 +51,15 @@ for i in range(len(bingo_numbers)):
                 print(column)
                 bingo = True
                 break
+        
+        if bingo == True:
+            print('Bingo!')
+            print('Winning board number: %d' % (board_number+1))
+            print('Numbers in play:')
+            print(bingo_numbers_in_play)
+
+            unscored_numbers = selected_board.flatten()[np.isin(selected_board.flatten(), bingo_numbers_in_play, invert = True)]
+            print("unscored sum: %d" % sum(unscored_numbers))
+            print("last bingo number: %d" % bingo_numbers_in_play[-1])
+            print('product: %d' % (sum(unscored_numbers) * bingo_numbers_in_play[-1]))
+            break
