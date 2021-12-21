@@ -1,4 +1,6 @@
 
+# A solution from reddit --------
+
 with open('sample.txt') as f:
     fish_init_str =  [ line.strip().split(',') for line in f]
 
